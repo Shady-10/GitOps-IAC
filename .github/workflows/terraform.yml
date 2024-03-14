@@ -1,0 +1,58 @@
+name: "GitOps-IAC"
+on:
+  push:
+    branches:
+      - main
+      - stage
+    paths:
+      - terraform/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - terraform/**
+
+env:
+  AWS_ACCESS_KEY: ${{secret.AWS_ACCESS_KEY}}
+  AWS_SECRET_KEY: ${{secret.AWS_SECRET_KEY}}
+  BUCKET_TF_STATE: ${{secret.BUCKET_TF_STATE}}
+  AWS_REGION: us-east-1
+  CLUSTER_NAME: GitOps-EKS
+
+jobs:
+  terraform:
+    name: Apply terraform code
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+    steps:
+      - name: Checkout The Source Code
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3.0.0
+        with:
+          terraform-version: "~>1.7.0"
+
+      - name: Run Terraform Init
+        id: Init
+        run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+      - name: Check Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Validata Terraform Code
+        id: validate
+        run: terraform validate
+
+      - name: Run Terraform Planm
+        id: plan
+        run: terraform plan -no-color -input=false -out planfile
+        continue-on-error: true
+
+      - name: Terraform plan state
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
