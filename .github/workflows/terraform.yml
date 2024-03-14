@@ -34,8 +34,6 @@ jobs:
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3.0.0
-        with:
-          terraform-version: "~>1.7.0"
 
       - name: Run Terraform Init
         id: Init
