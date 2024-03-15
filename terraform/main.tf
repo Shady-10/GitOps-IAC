@@ -15,3 +15,5 @@ locals {
   Cluster-Name = var.CLUSTER_NAME
 }
 
+
+
