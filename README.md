@@ -48,25 +48,25 @@ To avoid incurring unnecessary charges, remember to clean up your resources when
 
 1. **Remove Ingress Controller:**
 
-- Remove the Kubernetes configuration file:
+    - Remove the Kubernetes configuration file:
 
-    ```sh
-    rm -rf ~/.kube/config
-    ```
-- Update the kubeconfig file with the correct AWS EKS cluster name:
+        ```sh
+        rm -rf ~/.kube/config
+        ```
+    - Update the kubeconfig file with the correct AWS EKS cluster name:
 
-    ```sh
-    aws eks update-kubeconfig --region "Region Name" --name "Cluster_Name"
-    ```
+        ```sh
+        aws eks update-kubeconfig --region "Region Name" --name "Cluster_Name"
+        ```
 
 2. **Destroy Terraform Infrastructure:**
 
-- Configure the AWS CLI locally with the access key and secret key of the user.
-- Run Terraform init with the backend configuration:
-    ```sh
-    terraform init -backend-config="bucket=bucket_name"
-    ```
-- Destroy the Terraform-managed infrastructure:
-    ```sh
-    terraform destroy
-    ```
+    - Configure the AWS CLI locally with the access key and secret key of the user.
+    - Run Terraform init with the backend configuration:
+        ```sh
+        terraform init -backend-config="bucket=bucket_name"
+        ```
+    - Destroy the Terraform-managed infrastructure:
+        ```sh
+        terraform destroy
+        ```
