@@ -63,10 +63,12 @@ To avoid incurring unnecessary charges, remember to clean up your resources when
 
     - Configure the AWS CLI locally with the access key and secret key of the user.
     - Run Terraform init with the backend configuration:
+
         ```sh
         terraform init -backend-config="bucket=bucket_name"
         ```
     - Destroy the Terraform-managed infrastructure:
+    
         ```sh
         terraform destroy
         ```
